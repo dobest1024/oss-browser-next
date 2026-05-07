@@ -1,0 +1,96 @@
+{
+  "name": "oss-browser-next",
+  "version": "2.0.0",
+  "description": "Alibaba Cloud OSS Browser - Modern Rewrite",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "pack:mac": "npm run build && electron-builder --mac --arm64",
+    "pack:mac-x64": "npm run build && electron-builder --mac --x64",
+    "lint": "eslint . --ext .ts,.tsx",
+    "pack:win": "npm run build && electron-builder --win --x64",
+    "pack:linux": "npm run build && electron-builder --linux --x64"
+  },
+  "dependencies": {
+    "ali-oss": "^6.13.2",
+    "electron-log": "^5.1.2"
+  },
+  "devDependencies": {
+    "@electron-toolkit/preload": "^3.0.0",
+    "@electron-toolkit/utils": "^3.0.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-switch": "^1.1.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@types/ali-oss": "^6.16.11",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "electron-vite": "^2.3.0",
+    "lucide-react": "^0.400.0",
+    "postcss": "^8.4.39",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "^3.4.6",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1",
+    "zustand": "^4.5.4"
+  },
+  "build": {
+    "appId": "com.aliyun.oss-browser-next",
+    "productName": "OSS Browser Next",
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.icns"
+    },
+    "directories": {
+      "output": "releases"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.png"
+    }
+  }
+}
