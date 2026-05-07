@@ -248,24 +248,31 @@ export function FileBrowser() {
           )}
           {!isBucketView && (
             <>
-              <Button variant="ghost" size="sm" onClick={handleUpload} className="gap-1.5">
-                <Upload className="h-3.5 w-3.5" /> 上传文件
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleFolderUpload} className="gap-1.5">
-                <FolderUp className="h-3.5 w-3.5" /> 上传文件夹
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setShowNewFolder(!showNewFolder)} className="gap-1.5">
-                <FolderPlus className="h-3.5 w-3.5" /> 新建目录
-              </Button>
-              {selectedArr.length > 0 && (
+              {selectedArr.length === 0 ? (
                 <>
+                  <Button variant="ghost" size="sm" onClick={handleUpload} className="gap-1.5">
+                    <Upload className="h-3.5 w-3.5" /> 上传文件
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={handleFolderUpload} className="gap-1.5">
+                    <FolderUp className="h-3.5 w-3.5" /> 上传文件夹
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => setShowNewFolder(!showNewFolder)} className="gap-1.5">
+                    <FolderPlus className="h-3.5 w-3.5" /> 新建目录
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <span className="text-xs text-muted-foreground px-1">已选 {selectedArr.length} 项</span>
                   {selectedFiles.length > 0 && (
                     <Button variant="ghost" size="sm" onClick={handleBatchDownload} className="gap-1.5">
                       <Download className="h-3.5 w-3.5" /> 下载({selectedFiles.length})
                     </Button>
                   )}
-                  <Button variant="ghost" size="sm" onClick={() => handleDelete(selectedArr)} className="gap-1.5 text-destructive">
+                  <Button variant="ghost" size="sm" onClick={() => handleDelete(selectedArr)} className="gap-1.5 text-destructive hover:text-destructive">
                     <Trash2 className="h-3.5 w-3.5" /> 删除({selectedArr.length})
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => browser.clearSelection()} className="gap-1.5">
+                    <X className="h-3.5 w-3.5" /> 取消
                   </Button>
                 </>
               )}
