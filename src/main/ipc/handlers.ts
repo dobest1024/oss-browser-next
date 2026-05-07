@@ -7,6 +7,7 @@ import {
   setActiveAccount, getActiveId, exportConfig, importConfig
 } from '../lib/accounts'
 import { getClient, invalidateClient } from '../lib/oss-factory'
+import { checkForUpdate } from '../lib/updater'
 
 // Keys that should be cancelled on next progress tick
 const cancelledKeys = new Set<string>()
@@ -438,3 +439,7 @@ ipcMain.handle('window:maximize', () => {
   win.isMaximized() ? win.unmaximize() : win.maximize()
 })
 ipcMain.handle('window:close', () => BrowserWindow.getFocusedWindow()?.close())
+
+// ─── Updater ─────────────────────────────────────────────────────────────────
+
+ipcMain.handle('updater:check', () => checkForUpdate())

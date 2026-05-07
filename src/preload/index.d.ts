@@ -99,6 +99,10 @@ declare global {
         close: () => Promise<void>
         platform: string
       }
+      updater: {
+        check: () => Promise<{ version: string; url: string; publishedAt: string; body: string } | null>
+        currentVersion: string
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { version } from '../../package.json'
 
 const api = {
   accounts: {
@@ -78,6 +79,10 @@ const api = {
     maximize: () => ipcRenderer.invoke('window:maximize'),
     close: () => ipcRenderer.invoke('window:close'),
     platform: process.platform
+  },
+  updater: {
+    check: () => ipcRenderer.invoke('updater:check'),
+    currentVersion: version
   }
 }
 

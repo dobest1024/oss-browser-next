@@ -92,5 +92,6 @@
       ],
       "icon": "resources/icon.png"
     }
-  }
+  },
+  "repository": "https://github.com/YOUR_USERNAME/oss-browser-next"
 }
