@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: ['socks-proxy-agent'] })]
+    plugins: [externalizeDepsPlugin({ exclude: ['socks-proxy-agent', 'http-proxy-agent', 'https-proxy-agent'] })]
   },
   preload: {
     plugins: [externalizeDepsPlugin()]

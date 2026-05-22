@@ -1,6 +1,6 @@
 {
   "name": "oss-browser-next",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Alibaba Cloud OSS Browser - Modern Rewrite",
   "main": "./out/main/index.js",
   "scripts": {
@@ -16,6 +16,8 @@
   "dependencies": {
     "ali-oss": "^6.13.2",
     "electron-log": "^5.1.2",
+    "http-proxy-agent": "^9.0.0",
+    "https-proxy-agent": "^9.0.0",
     "socks-proxy-agent": "^10.0.0"
   },
   "devDependencies": {
