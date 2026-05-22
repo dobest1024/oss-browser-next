@@ -13,16 +13,32 @@ interface ProxyAgents {
   httpsAgent: https.Agent
 }
 
+// HttpsProxyAgent / SocksProxyAgent only use constructor options for the
+// connection to the proxy itself. The TLS handshake to the *target* uses
+// the request opts that node-core passes into `connect()`. To skip target
+// cert verification we must inject rejectUnauthorized:false there.
+class InsecureHttpsProxyAgent extends HttpsProxyAgent<string> {
+  async connect(req: any, opts: any) {
+    return super.connect(req, { ...opts, rejectUnauthorized: false })
+  }
+}
+class InsecureSocksProxyAgent extends SocksProxyAgent {
+  async connect(req: any, opts: any) {
+    return super.connect(req, { ...opts, rejectUnauthorized: false })
+  }
+}
+
 function makeAgents(proxyUrl: string, insecureTLS: boolean): ProxyAgents {
   const url = new URL(proxyUrl)
-  const tlsOpts = insecureTLS ? { rejectUnauthorized: false } : {}
   if (url.protocol.startsWith('socks')) {
-    const socks = new SocksProxyAgent(proxyUrl, tlsOpts)
+    const socks = insecureTLS ? new InsecureSocksProxyAgent(proxyUrl) : new SocksProxyAgent(proxyUrl)
     return { agent: socks as unknown as http.Agent, httpsAgent: socks as unknown as https.Agent }
   }
   return {
-    agent: new HttpProxyAgent(proxyUrl, tlsOpts) as unknown as http.Agent,
-    httpsAgent: new HttpsProxyAgent(proxyUrl, tlsOpts) as unknown as https.Agent
+    agent: new HttpProxyAgent(proxyUrl) as unknown as http.Agent,
+    httpsAgent: (insecureTLS
+      ? new InsecureHttpsProxyAgent(proxyUrl)
+      : new HttpsProxyAgent(proxyUrl)) as unknown as https.Agent
   }
 }
 
