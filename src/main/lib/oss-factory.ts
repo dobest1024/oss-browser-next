@@ -29,12 +29,13 @@ export function getClient(account: Account): OSS {
   const cached = clients.get(account.id)
   if (cached) return cached
 
-  const opts: OSS.Options & { httpsAgent?: https.Agent } = {
+  const opts: OSS.Options & { httpsAgent?: https.Agent; secure?: boolean } = {
     accessKeyId: account.accessKeyId,
     accessKeySecret: account.accessKeySecret,
     region: account.region,
     endpoint: account.cname || account.endpoint || undefined,
     cname: !!account.cname,
+    secure: true,
     timeout: 60000
   }
 

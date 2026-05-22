@@ -1,6 +1,6 @@
 {
   "name": "oss-browser-next",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Alibaba Cloud OSS Browser - Modern Rewrite",
   "main": "./out/main/index.js",
   "scripts": {
