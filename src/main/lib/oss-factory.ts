@@ -1,16 +1,18 @@
 import OSS from 'ali-oss'
 import http from 'http'
 import https from 'https'
+import { SocksProxyAgent } from 'socks-proxy-agent'
 import { Account } from './accounts'
 
 const clients = new Map<string, OSS>()
 
 function makeAgent(proxyUrl: string, secure: boolean) {
-  // Simple tunnel agent for HTTP proxy
-  const { hostname, port } = new URL(proxyUrl)
+  const url = new URL(proxyUrl)
+  if (url.protocol.startsWith('socks')) {
+    return new SocksProxyAgent(proxyUrl)
+  }
   const AgentClass = secure ? https.Agent : http.Agent
-  // For a proper tunnel we'd use 'tunnel' package, but ali-oss accepts httpAgent directly
-  return new AgentClass({ host: hostname, port: Number(port) })
+  return new AgentClass({ host: url.hostname, port: Number(url.port) })
 }
 
 export function getClient(account: Account): OSS {

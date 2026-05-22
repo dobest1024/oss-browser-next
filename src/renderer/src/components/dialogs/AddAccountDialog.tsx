@@ -99,7 +99,7 @@ export function AddAccountDialog({ open, onClose, editing }: Props) {
           <Field label="自定义 Endpoint（可选）" placeholder="https://oss-cn-hangzhou.aliyuncs.com" value={form.endpoint} onChange={(v) => set('endpoint', v)} />
           <Field label="默认 Bucket（可选，无 ListBuckets 权限时必填）" placeholder="my-bucket-name" value={form.defaultBucket} onChange={(v) => set('defaultBucket', v)} />
           <Field label="自定义域名 CNAME（可选）" placeholder="https://cdn.example.com" value={form.cname} onChange={(v) => set('cname', v)} />
-          <Field label="HTTP 代理（可选）" placeholder="http://127.0.0.1:7890" value={form.proxy} onChange={(v) => set('proxy', v)} />
+          <Field label="代理（可选，支持 HTTP / SOCKS5）" placeholder="http://127.0.0.1:7890 或 socks5://127.0.0.1:1080" value={form.proxy} onChange={(v) => set('proxy', v)} />
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={onClose}>取消</Button>
             <Button type="submit" disabled={loading}>{loading ? '保存中...' : '保存'}</Button>
