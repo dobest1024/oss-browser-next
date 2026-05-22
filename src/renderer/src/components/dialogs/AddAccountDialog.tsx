@@ -32,7 +32,8 @@ export function AddAccountDialog({ open, onClose, editing }: Props) {
     region: 'oss-cn-hangzhou',
     defaultBucket: '',
     cname: '',
-    proxy: ''
+    proxy: '',
+    insecureTLS: false
   })
   const [loading, setLoading] = useState(false)
 
@@ -46,11 +47,12 @@ export function AddAccountDialog({ open, onClose, editing }: Props) {
       region: editing?.region ?? 'oss-cn-hangzhou',
       defaultBucket: editing?.defaultBucket ?? '',
       cname: editing?.cname ?? '',
-      proxy: editing?.proxy ?? ''
+      proxy: editing?.proxy ?? '',
+      insecureTLS: editing?.insecureTLS ?? false
     })
   }, [open, editing?.id])
 
-  const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }))
+  const set = (k: string, v: string | boolean) => setForm((f) => ({ ...f, [k]: v }))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -100,6 +102,14 @@ export function AddAccountDialog({ open, onClose, editing }: Props) {
           <Field label="默认 Bucket（可选，无 ListBuckets 权限时必填）" placeholder="my-bucket-name" value={form.defaultBucket} onChange={(v) => set('defaultBucket', v)} />
           <Field label="自定义域名 CNAME（可选）" placeholder="https://cdn.example.com" value={form.cname} onChange={(v) => set('cname', v)} />
           <Field label="代理（可选，支持 HTTP / SOCKS5）" placeholder="http://127.0.0.1:7890 或 socks5://127.0.0.1:1080" value={form.proxy} onChange={(v) => set('proxy', v)} />
+          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={form.insecureTLS}
+              onChange={(e) => set('insecureTLS', e.target.checked)}
+            />
+            忽略 SSL 证书校验（代理做 MITM 抓包时使用，不安全）
+          </label>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={onClose}>取消</Button>
             <Button type="submit" disabled={loading}>{loading ? '保存中...' : '保存'}</Button>

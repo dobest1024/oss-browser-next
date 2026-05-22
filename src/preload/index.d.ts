@@ -6,6 +6,7 @@ export interface Account {
   endpoint: string
   region: string
   proxy?: string
+  insecureTLS?: boolean
   defaultBucket?: string
   cname?: string
   createdAt: number

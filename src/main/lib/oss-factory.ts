@@ -13,15 +13,16 @@ interface ProxyAgents {
   httpsAgent: https.Agent
 }
 
-function makeAgents(proxyUrl: string): ProxyAgents {
+function makeAgents(proxyUrl: string, insecureTLS: boolean): ProxyAgents {
   const url = new URL(proxyUrl)
+  const tlsOpts = insecureTLS ? { rejectUnauthorized: false } : {}
   if (url.protocol.startsWith('socks')) {
-    const socks = new SocksProxyAgent(proxyUrl)
+    const socks = new SocksProxyAgent(proxyUrl, tlsOpts)
     return { agent: socks as unknown as http.Agent, httpsAgent: socks as unknown as https.Agent }
   }
   return {
-    agent: new HttpProxyAgent(proxyUrl) as unknown as http.Agent,
-    httpsAgent: new HttpsProxyAgent(proxyUrl) as unknown as https.Agent
+    agent: new HttpProxyAgent(proxyUrl, tlsOpts) as unknown as http.Agent,
+    httpsAgent: new HttpsProxyAgent(proxyUrl, tlsOpts) as unknown as https.Agent
   }
 }
 
@@ -39,10 +40,13 @@ export function getClient(account: Account): OSS {
     timeout: 60000
   }
 
+  const insecureTLS = !!account.insecureTLS
   if (account.proxy) {
-    const { agent, httpsAgent } = makeAgents(account.proxy)
+    const { agent, httpsAgent } = makeAgents(account.proxy, insecureTLS)
     opts.agent = agent
     opts.httpsAgent = httpsAgent
+  } else if (insecureTLS) {
+    opts.httpsAgent = new https.Agent({ rejectUnauthorized: false })
   }
 
   const client = new OSS(opts)
